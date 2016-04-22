@@ -1,0 +1,27 @@
+//=============================================================================
+// Trick-UAV Simulation
+//=============================================================================
+// Description:
+// This is a simulation definition file (S_define) that defines the simulation
+// of the Trick-UAV.  It is a Trick 16.0 based simulation.
+//
+// The following simulation objects are defined in this sim:
+//
+//              sys - Trick runtime executive and data recording routines
+//              hc  - Hand Controller interface.
+// 
+//=============================================================================
+
+//=============================================================================
+// Trick system sim object include. Necessary for all Trick sims.
+//=============================================================================
+#include "sim_objects/default_trick_sys.sm"
+
+//=============================================================================
+// Hand controller interface sim object.
+//=============================================================================
+#include "S_modules/HandController.sm"
+
+//=============================================================================
+// End simulation definition file
+//=============================================================================

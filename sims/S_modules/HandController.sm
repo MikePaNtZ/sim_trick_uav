@@ -1,0 +1,19 @@
+/* =============================================================================
+// SIM_OBJECT: Hand Controller Interface Sim Object
+// PURPOSE: This sim object provides the interface to the UAV's hand
+//          controller.
+// AUTHOR: Mike Moore 04-16
+//============================================================================= */
+
+class HandControllerSimObject : public Trick::SimObject
+{
+   public:
+   	float throttle;                 /**< (--) Hand controller throttle command */
+
+    HandControllerSimObject() {};
+  
+   private:
+    HandControllerSimObject(const HandControllerSimObject&);
+    HandControllerSimObject & operator = (const HandControllerSimObject&);
+};
+HandControllerSimObject hc;
