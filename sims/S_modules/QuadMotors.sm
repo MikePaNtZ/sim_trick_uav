@@ -1,0 +1,38 @@
+/* =============================================================================
+// SIM_OBJECT: Quad-rotor motor model
+// PURPOSE: This sim object provides a model of the four motors on the quad
+//          rotor.
+// AUTHOR: Mike Moore 04-16
+//============================================================================= */
+
+class QuadMotorsSimObject : public Trick::SimObject
+{
+
+  private:
+  	/// - External inputs
+    double & throttle_cmd1;          /**< (v) Input throttle command */
+
+  public:
+    /// - Model configuration term
+   	double thrust_coeff;             /**< (N/v)  Thrust coefficient  */
+
+    /// - Model output
+   	double thrust;                   /**< (N)    Total thrust produced by the motor */
+
+    QuadMotorsSimObject(double & throttle_cmd1_in) 
+    :
+    throttle_cmd1(throttle_cmd1_in)
+    {
+        (MOTOR_DYN_RATE, "scheduled")      compute_thrust() ;
+    };
+
+	void compute_thrust(){
+		thrust = throttle_cmd1 * thrust_coeff;
+	}
+
+  private:
+    /// - Disable copy constructor and assignment operator.
+    QuadMotorsSimObject(const QuadMotorsSimObject&);
+    QuadMotorsSimObject & operator = (const QuadMotorsSimObject&);
+};
+QuadMotorsSimObject motors(hc.throttle);

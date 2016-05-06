@@ -1,0 +1,85 @@
+/* =============================================================================
+// SIM_OBJECT: Quad Rotor Dynamics Sim Object
+// PURPOSE: This sim object provides the modelling of the physics that effects
+//          the quad-rotor's dynamic state.
+// AUTHOR: Mike Moore 04-16
+//============================================================================= */
+
+/// - Bring in this sim object's dependencies
+##include "sim_services/Integrator/include/integrator_c_intf.h"
+##include "quad_vehicle/QuadRotor.hh"
+
+class QuadRotorDynamicsSimObject : public Trick::SimObject
+{
+  private:
+    /// - External inputs
+    QuadRotor & vehicle;             /**< (--)   The model of the quad rotor */
+    double  & total_motor_force;     /**< (N)    The total force coming from the motor model. */
+    double  & total_aero_force;      /**< (N)    The total force coming from the aero model. */
+
+  public:
+    /// - Dynamics configuration terms
+    double grav_coeff;               /**< (m/s2) Gravitation coefficient */
+
+    /// - Sim object constructor and sim object job definitions
+    QuadRotorDynamicsSimObject(
+      QuadRotor & vehicle_in,
+      double    & total_motor_force_in,
+      double    & total_aero_force_in)
+    :
+    vehicle(vehicle_in),
+    total_motor_force(total_motor_force_in),
+    total_aero_force(total_aero_force_in)
+    {
+        ("derivative")      compute_forces() ;
+        ("integration")     integrate_state();
+    };
+
+  protected:
+
+  void compute_forces(){
+      gravity_force = vehicle.mass * grav_coeff;
+      force_sum = total_motor_force + total_aero_force - gravity_force;
+      vehicle.acceleration[0] = force_sum / vehicle.mass;
+  }
+
+  int integrate_state(){
+      int ipass;
+
+      /* LOAD THE POSITION AND VELOCITY STATES */
+      load_state(
+          &vehicle.position[0] ,
+          &vehicle.velocity[0] ,
+          NULL
+      );
+
+      /* LOAD THE POSITION AND VELOCITY STATE DERIVATIVES */
+      load_deriv(
+          &vehicle.velocity[0] ,
+          &vehicle.acceleration[0] ,
+          NULL
+      );
+
+      /* CALL THE TRICK INTEGRATION SERVICE */
+      ipass = integrate();
+
+      /* UNLOAD THE NEW POSITION AND VELOCITY STATES */
+      unload_state(
+          &vehicle.position[0] ,
+          &vehicle.velocity[0] ,
+          NULL
+      );
+
+      /* RETURN */
+      return( ipass );
+  }
+
+  private:
+    /// - Class internal vars
+    double gravity_force;            /**< (N)    Total gravitational force */
+    double force_sum;                /**< (N)    Summation of forces (1-D) */
+
+    QuadRotorDynamicsSimObject(const QuadRotorDynamicsSimObject&);
+    QuadRotorDynamicsSimObject & operator = (const QuadRotorDynamicsSimObject&);   
+};
+QuadRotorDynamicsSimObject dynamics(vehicle.model, motors.thrust, aero.aero_force);

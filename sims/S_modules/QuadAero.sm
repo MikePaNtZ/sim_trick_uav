@@ -1,0 +1,41 @@
+/* =============================================================================
+// SIM_OBJECT: Quad-rotor aerodynamics model
+// PURPOSE: This sim object provides a model of the quad-rotor aerodynamic
+//          effects.
+// AUTHOR: Mike Moore 04-16
+//============================================================================= */
+
+/// - Bring in this sim object's dependencies
+##include "quad_vehicle/QuadRotor.hh"
+
+class QuadAeroSimObject : public Trick::SimObject
+{
+
+  private:
+  	/// - External inputs
+    QuadRotor & vehicle;          /**< (--) Input vehicle model */
+
+  public:
+    /// - Model configuration term
+   	double drag_coeff;               /**< (kg/s)   Drag coefficient  */
+
+    /// - Model output
+   	double aero_force;               /**< (N)    Total aerodynamic force on the quad. */
+
+    QuadAeroSimObject(QuadRotor & vehicle_in) 
+    :
+    vehicle(vehicle_in)
+    {
+        (AERO_RATE, "scheduled")      compute_aero_force() ;
+    };
+
+	void compute_aero_force(){
+		aero_force = vehicle.velocity[0] * drag_coeff * - 1.0;
+	}
+
+  private:
+    /// - Disable copy constructor and assignment operator.
+    QuadAeroSimObject(const QuadAeroSimObject&);
+    QuadAeroSimObject & operator = (const QuadAeroSimObject&);
+};
+QuadAeroSimObject aero(vehicle.model);

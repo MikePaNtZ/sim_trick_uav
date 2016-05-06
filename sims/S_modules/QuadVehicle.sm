@@ -1,0 +1,29 @@
+/* =============================================================================
+// SIM_OBJECT: Quad-Rotor vehicle sim object
+// PURPOSE: This sim object provides the model for the Quad-Rotor.
+// AUTHOR: Mike Moore 04-16
+//============================================================================= */
+
+##include "quad_vehicle/QuadRotor.hh"
+
+class QuadVehicleSimObject : public Trick::SimObject
+{
+  public:
+    /// - Vehicle State Model
+    QuadRotor model;              /**< (--) Model of the quad rotor state */
+
+    QuadVehicleSimObject() {
+        (DYNAMICS_RATE, "scheduled")      update_vehicle() ;
+    };
+
+	void update_vehicle(){
+		/// - Nothing to do yet.
+	}
+
+  private:
+
+    QuadVehicleSimObject(const QuadVehicleSimObject&);
+    QuadVehicleSimObject & operator = (const QuadVehicleSimObject&);
+
+};
+QuadVehicleSimObject vehicle;

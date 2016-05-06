@@ -7,10 +7,20 @@
 //
 // The following simulation objects are defined in this sim:
 //
-//              sys - Trick runtime executive and data recording routines
-//              hc  - Hand Controller interface.
+//              sys      - Trick runtime executive and data recording routines
+//              hc       - Hand controller interface.
+//              motors   - Model of the quad-rotor motors.
+//              dynamics - Model of the quad-rotor dynamic state.
 // 
 //=============================================================================
+
+//=============================================================================
+// Establish the simulation rates.
+//=============================================================================
+#define HC_RATE         0.01    // (s) Timestep for Hand Controller processing
+#define MOTOR_DYN_RATE  0.01    // (s) Timestep for motor dynamics model
+#define AERO_RATE       0.01    // (s) Timestep for the quad-rotor aero
+#define DYNAMICS_RATE   0.01    // (s) Timestep for the quad-rotor dynamics
 
 //=============================================================================
 // Trick system sim object include. Necessary for all Trick sims.
@@ -18,9 +28,34 @@
 #include "sim_objects/default_trick_sys.sm"
 
 //=============================================================================
+// Quad rotor vehicle sim object.
+//=============================================================================
+#include "S_modules/QuadVehicle.sm"
+
+//=============================================================================
 // Hand controller interface sim object.
 //=============================================================================
 #include "S_modules/HandController.sm"
+
+//=============================================================================
+// Quad motors sim object.
+//=============================================================================
+#include "S_modules/QuadMotors.sm"
+
+//=============================================================================
+// Quad aerodynamics sim object.
+//=============================================================================
+#include "S_modules/QuadAero.sm"
+
+//=============================================================================
+// Quad rotor dynamics sim object.
+//=============================================================================
+#include "S_modules/QuadRotorDynamics.sm"
+
+//=============================================================================
+// Establish the quad rotor dynamics integration loop
+//=============================================================================
+IntegLoop quad_integrator (DYNAMICS_RATE) dynamics;
 
 //=============================================================================
 // End simulation definition file
