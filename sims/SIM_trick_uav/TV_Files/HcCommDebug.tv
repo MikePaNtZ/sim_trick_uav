@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<trickView>
+    <cyclePeriod>0.5</cyclePeriod>
+    <variable>
+        <name>hc.throttle</name>
+        <tvFloat>
+            <value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:float">0.0</value>
+            <format>Decimal</format>
+        </tvFloat>
+        <state>Valid</state>
+        <units>--</units>
+    </variable>
+    <stripChart>
+        <domainVariable>Simulation Time (seconds)</domainVariable>
+        <plottedVariable>hc.throttle</plottedVariable>
+        <mode>Strip</mode>
+        <fixedAutoRange>30.0</fixedAutoRange>
+        <areLinesVisible>true</areLinesVisible>
+        <arePointsVisible>false</arePointsVisible>
+        <isLegendVisible>true</isLegendVisible>
+        <areSettingsVisible>true</areSettingsVisible>
+        <isAntiAliased>false</isAntiAliased>
+        <isBackgroundSet>false</isBackgroundSet>
+        <backgroundRgb>0</backgroundRgb>
+        <title>
+            <text>Strip Chart</text>
+            <font>
+                <name>Tahoma</name>
+                <style>1</style>
+                <size>20</size>
+            </font>
+            <rgb>-16777216</rgb>
+        </title>
+        <isHorizontal>false</isHorizontal>
+        <outlineRgb>-16777216</outlineRgb>
+        <plotBackgroundRgb>-1</plotBackgroundRgb>
+        <domainAxis>
+            <label>Simulation Time (seconds)</label>
+            <font>
+                <name>Tahoma</name>
+                <style>1</style>
+                <size>14</size>
+            </font>
+            <rgb>-12566464</rgb>
+            <areTickMarksVisible>true</areTickMarksVisible>
+            <areTickLabelsVisible>true</areTickLabelsVisible>
+            <tickLabelFont>
+                <name>Tahoma</name>
+                <style>0</style>
+                <size>12</size>
+            </tickLabelFont>
+            <tickLabelRgb>-12566464</tickLabelRgb>
+            <range>
+                <lower>-30.0</lower>
+                <upper>0.0</upper>
+            </range>
+        </domainAxis>
+        <rangeAxis>
+            <label>Value</label>
+            <font>
+                <name>Tahoma</name>
+                <style>1</style>
+                <size>14</size>
+            </font>
+            <rgb>-12566464</rgb>
+            <areTickMarksVisible>true</areTickMarksVisible>
+            <areTickLabelsVisible>true</areTickLabelsVisible>
+            <tickLabelFont>
+                <name>Tahoma</name>
+                <style>0</style>
+                <size>12</size>
+            </tickLabelFont>
+            <tickLabelRgb>-12566464</tickLabelRgb>
+            <range>
+                <lower>-5.0E-9</lower>
+                <upper>5.0E-9</upper>
+            </range>
+        </rangeAxis>
+        <bounds>
+            <x>750</x>
+            <y>104</y>
+            <width>680</width>
+            <height>573</height>
+        </bounds>
+    </stripChart>
+</trickView>

@@ -7,13 +7,72 @@
 
 class HandControllerSimObject : public Trick::SimObject
 {
-   public:
-   	float throttle;                 /**< (--) Hand controller throttle command */
+  public:
+    float throttle;                 /**< (--) Hand controller throttle command */
 
-    HandControllerSimObject() {};
-  
-   private:
+    float mass;                     /**< (kg)   Vehicle mass */
+    float force_sum;                /**< (N)    Summation of forces (1-D) */
+    float grav_coeff;               /**< (N/kg) Vehicle mass */
+   	float thrust_coeff;           /**< (--) Thrust coefficient (temporary for testing) */
+    float position;                 /**< (m)    Vehicle position */
+    float velocity;                 /**< (m/s)  Vehicle velocity */
+    float acceleration;             /**< (m/s2) Vehicle acceleration */
+
+    HandControllerSimObject() {
+        ("derivative")      compute_forces() ;
+        ("integration")     integrate_state();
+
+    };
+
+  protected:
+
+	void compute_forces(){
+		thrust = throttle * thrust_coeff;
+		gravity = mass * grav_coeff;
+		force_sum = thrust + gravity;
+	}
+
+	void integrate_state(){
+	    int ipass;
+
+	    /* LOAD THE POSITION AND VELOCITY STATES */
+	    load_state(
+	        &C->pos[0] ,
+	        &C->vel[0] ,
+	        NULL
+	    );
+
+	    /* LOAD THE POSITION AND VELOCITY STATE DERIVATIVES */
+	    load_deriv(
+	        &C->vel[0] ,
+	        &C->vel[1] ,
+	        &C->acc[0] ,
+	        &C->acc[1] ,
+	        NULL
+	    );
+
+	    /* CALL THE TRICK INTEGRATION SERVICE */
+	    ipass = integrate();
+
+	    /* UNLOAD THE NEW POSITION AND VELOCITY STATES */
+	    unload_state(
+	        &C->pos[0] ,
+	        &C->pos[1] ,
+	        &C->vel[0] ,
+	        &C->vel[1] ,
+	        NULL
+	    );
+
+	    /* RETURN */
+	    return( ipass );
+	}
+
+  private:
+
+   	float thrust;                 /**< (N) Thrust force (temporary for testing) */
+
     HandControllerSimObject(const HandControllerSimObject&);
     HandControllerSimObject & operator = (const HandControllerSimObject&);
+
 };
 HandControllerSimObject hc;

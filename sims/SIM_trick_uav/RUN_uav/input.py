@@ -17,6 +17,14 @@ trick.exec_set_enable_freeze(REALTIME)
 trick.exec_set_freeze_command(REALTIME)
 trick.sim_control_panel_set_enabled(REALTIME)
 
+hc.throttle = 20.0
+
+
+#-------------------------------------------------------------
+# Print events to terminal as they activate
+#-------------------------------------------------------------
+trick.var_server_set_port(32475)
+
 #-------------------------------------------------------------
 # Print events to terminal as they activate
 #-------------------------------------------------------------
